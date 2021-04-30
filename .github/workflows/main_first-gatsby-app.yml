@@ -29,11 +29,9 @@ jobs:
         npm run build --if-present
         npm run test --if-present
 
-    - name: Run Azure webapp deploy action using publish profile credentials
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: first-gatsby-app
-        slot-name: Production
-        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2F32969BC2AC4D6D8FF9A32E9463DA90 }}
-        package: .
-
+    - name: Upload To Azure Blob Storage
+        uses: bacongobbler/azure-blob-storage-upload@v1.0.0
+        with:
+          source_dir: public #gatsby build generates this file after build
+          container_name: $web
+          connection_string: ${{ secrets.BLOB_STORAGE_CONNECTION_STRING }}
